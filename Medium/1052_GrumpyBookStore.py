@@ -1,22 +1,24 @@
 
 
 def max_satisfied(customer: list[int], grumpy: list[int], minutes: int) -> int:
-    my_table = list()
-    
-    for (cus, grp) in zip(customer, grumpy):
-         my_table.append((cus, grp))
-    
-    # print(my_table)
-    # print(len(my_table))
+    satisfied = 0
+    windows = 0
+    left = 0
+    max_val = 0
 
-    max_satisfied = my_table[0][0] + my_table[1][0]
-    print(max_satisfied)
-    
-    for i in range(2, len(my_table)):
-        if my_table[i][1] == 0:
-            max_satisfied += my_table[i][0]
-    
-    print(max_satisfied)
+    for right in range(len(customer)):
+        if grumpy[right]:
+            windows += customer[right]
+        else:
+            satisfied += customer[right]
+            
+        if right - left + 1 > minutes:
+            if grumpy[left]:
+                windows -= customer[left]
+            left += 1
+        max_val = max(max_val, windows)
+    return satisfied + max_val
+        
          
          
 if __name__=="__main__":
